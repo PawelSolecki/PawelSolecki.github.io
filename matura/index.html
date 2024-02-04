@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multiple Countdown Timers</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        text-align: center;
+        background-color: #f4f4f4;
+      }
+
+      .countdown-container {
+        margin-top: 20px;
+      }
+
+      .countdown {
+        font-size: 1.5em;
+        color: #333;
+        margin-bottom: 10px;
+        position: relative;
+      }
+
+      .countdown-label {
+        font-size: 1.2em;
+        color: #666;
+        margin-bottom: 5px;
+      }
+
+      .countdown-container .countdown-timer.days {
+        display: inline; /* Adjust the display property as needed */
+      }
+      .countdown-container .countdown-timer.hours,
+      .countdown-container .countdown-timer.minutes,
+      .countdown-container .countdown-timer.seconds {
+        display: none; /* Adjust the display property as needed */
+      }
+
+      .countdown:hover .countdown-timer {
+        display: inline;
+      }
+      .target-date-popup {
+        display: none;
+        position: absolute;
+        top: 30px;
+        left: 0;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        text-align: left;
+      }
+
+      .countdown-icon:hover + .target-date-popup,
+      .target-date-popup:hover {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>MATURA</h1>
+
+    <div class="countdown-container" id="countdown1">
+      <div class="countdown-label">Język polski podst</div>
+      <div class="target-date-popup" id="targetDatePopup1"></div>
+      <div class="countdown">
+        <span class="countdown-timer days"></span>
+        <span class="countdown-timer hours"></span>
+        <span class="countdown-timer minutes"></span>
+        <span class="countdown-timer seconds"></span>
+      </div>
+    </div>
+    <div class="countdown-container" id="countdown2">
+      <div class="countdown-label">Matematyka podst</div>
+      <div class="countdown">
+        <span class="countdown-timer days"></span>
+        <span class="countdown-timer hours"></span>
+        <span class="countdown-timer minutes"></span>
+        <span class="countdown-timer seconds"></span>
+      </div>
+    </div>
+    <div class="countdown-container" id="countdown3">
+      <div class="countdown-label">Język angielski podst</div>
+      <div class="countdown">
+        <span class="countdown-timer days"></span>
+        <span class="countdown-timer hours"></span>
+        <span class="countdown-timer minutes"></span>
+        <span class="countdown-timer seconds"></span>
+      </div>
+    </div>
+    <div class="countdown-container" id="countdown4">
+      <div class="countdown-label">Język angielski roz</div>
+      <div class="countdown">
+        <span class="countdown-timer days"></span>
+        <span class="countdown-timer hours"></span>
+        <span class="countdown-timer minutes"></span>
+        <span class="countdown-timer seconds"></span>
+      </div>
+    </div>
+    <div class="countdown-container" id="countdown5">
+      <div class="countdown-label">Matematyka roz</div>
+      <div class="countdown">
+        <span class="countdown-timer days"></span>
+        <span class="countdown-timer hours"></span>
+        <span class="countdown-timer minutes"></span>
+        <span class="countdown-timer seconds"></span>
+      </div>
+    </div>
+    <div class="countdown-container" id="countdown6">
+      <div class="countdown-label">Fizyka roz</div>
+      <div class="countdown">
+        <span class="countdown-timer days"></span>
+        <span class="countdown-timer hours"></span>
+        <span class="countdown-timer minutes"></span>
+        <span class="countdown-timer seconds"></span>
+      </div>
+    </div>
+
+    <!-- Add more countdown containers as needed -->
+
+    <script>
+      // Set the target dates for the countdowns
+      const targetDates = [
+        new Date("2024-05-07T09:00:00").toLocaleString("en-US", {
+          timeZone: "Europe/Warsaw",
+        }),
+        new Date("2024-05-08T09:00:00").toLocaleString("en-US", {
+          timeZone: "Europe/Warsaw",
+        }),
+        new Date("2024-05-09T09:00:00").toLocaleString("en-US", {
+          timeZone: "Europe/Warsaw",
+        }),
+        new Date("2024-05-13T09:00:00").toLocaleString("en-US", {
+          timeZone: "Europe/Warsaw",
+        }),
+        new Date("2024-05-15T09:00:00").toLocaleString("en-US", {
+          timeZone: "Europe/Warsaw",
+        }),
+        new Date("2024-05-23T09:00:00").toLocaleString("en-US", {
+          timeZone: "Europe/Warsaw",
+        }),
+      ];
+
+      function updateCountdown(index) {
+        const currentDate = new Date();
+        const timeDifference = new Date(targetDates[index]) - currentDate;
+
+        // Calculate days, hours, minutes, and seconds
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+        // Display the countdown
+        const countdownElement = document.getElementById(
+          `countdown${index + 1}`
+        );
+        if (countdownElement) {
+          countdownElement.querySelector(
+            ".countdown-timer.days"
+          ).innerHTML = `${days}d `;
+          countdownElement.querySelector(
+            ".countdown-timer.hours"
+          ).innerHTML = `${hours}h `;
+          countdownElement.querySelector(
+            ".countdown-timer.minutes"
+          ).innerHTML = `${minutes}m `;
+          countdownElement.querySelector(
+            ".countdown-timer.seconds"
+          ).innerHTML = `${seconds}s`;
+        }
+      }
+
+      // Update all countdowns every second
+      setInterval(() => {
+        for (let i = 0; i < targetDates.length; i++) {
+          updateCountdown(i);
+        }
+      }, 1000);
+
+      // Initial call to set the initial countdowns
+      for (let i = 0; i < targetDates.length; i++) {
+        updateCountdown(i);
+      }
+      function showTargetDate(index) {
+        const targetDatePopup = document.getElementById(
+          `targetDatePopup${index + 1}`
+        );
+        targetDatePopup.textContent = `Target Date: ${targetDates[index]}`;
+      }
+    </script>
+  </body>
+</html>
