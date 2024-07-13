@@ -1,0 +1,66 @@
+/* Resetting and adjustments for the detail page */
+
+/* Main container for details */
+.detail-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the top */
+  padding: 20px;
+}
+
+/* Left side containing main image and icons */
+.left-side {
+  width: 50%; /* Adjust width as needed */
+  text-align: center;
+}
+
+/* Container for main image and icons */
+.image-container {
+  position: relative; /* Positioning context for icons */
+}
+
+/* Main image style */
+.main-image {
+  max-width: 100%; /* Ensure image does not exceed container width */
+  height: auto; /* Allow image to resize proportionally */
+  max-height: 400px; /* Limit height to avoid excessive size */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Container for icons */
+.icons {
+  display: flex;
+  justify-content: center; /* Center icons horizontally */
+  margin-top: 10px;
+}
+
+/* Style for individual icons */
+.icon {
+  width: 50px; /* Fixed width for icons */
+  height: 50px; /* Fixed height for icons */
+  margin: 0 10px; /* Space between icons */
+  cursor: pointer;
+}
+
+/* Right side containing the slider */
+.right-side {
+  width: 50%; /* Adjust width as needed */
+  padding: 10px;
+  overflow-x: auto;
+}
+
+/* Slider style */
+.slider {
+  display: flex;
+
+  align-items: center; /* Center align items */
+}
+
+/* Style for images within the slider */
+.slider img {
+  max-width: 100px; /* Adjust size of the images in the slider */
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

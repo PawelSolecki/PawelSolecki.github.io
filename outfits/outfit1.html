@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Outfit 1 Details</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="details.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <h2>Outfits.zone</h2>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div class="detail-container">
+        <div class="left-side">
+          <div class="image-container">
+            <img src="outfit1.png" alt="Outfit 1" class="main-image" />
+          </div>
+          <div class="icons">
+            <img
+              src="tshirtIcon.jpeg"
+              alt="T-Shirt"
+              class="icon"
+              onclick="changeSlider('tshirt')"
+            />
+            <img
+              src="trousersIcon.jpeg"
+              alt="Trousers"
+              class="icon"
+              onclick="changeSlider('trousers')"
+            />
+            <img
+              src="shoeIcon.png"
+              alt="Shoes"
+              class="icon"
+              onclick="changeSlider('shoes')"
+            />
+          </div>
+        </div>
+        <div class="right-side">
+          <div class="slider" id="slider">
+            <!-- Images will be loaded dynamically based on the selected icon -->
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
