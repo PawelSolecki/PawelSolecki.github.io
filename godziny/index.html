@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#171717">
+  <meta name="description" content="Prosty miesięczny plan godzin pracy">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.github.com; img-src 'self'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg">
+  <title>Godziny pracy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <section id="login" class="panel login">
+      <h1>Godziny pracy</h1>
+      <p>Połącz prywatne repozytorium z danymi.</p>
+      <label>Repozytorium<input id="repo" autocomplete="off" value="PawelSolecki/work-calendar-data" placeholder="użytkownik/repozytorium"></label>
+      <label>Fine-grained token<input id="token" type="password" autocomplete="off" placeholder="github_pat_..."></label>
+      <label class="check"><input id="remember" type="checkbox" checked> Zapamiętaj na tym urządzeniu</label>
+      <button id="connect">Połącz</button>
+      <p id="login-error" class="error"></p>
+    </section>
+
+    <section id="app" hidden>
+      <header>
+        <div>
+          <h1>Godziny pracy</h1>
+          <span id="status">Połączono</span>
+        </div>
+        <button id="logout" class="ghost">Rozłącz</button>
+      </header>
+
+      <nav>
+        <button id="prev" aria-label="Poprzedni miesiąc">‹</button>
+        <h2 id="month"></h2>
+        <button id="next" aria-label="Następny miesiąc">›</button>
+      </nav>
+
+      <section class="summary">
+        <button id="target-card" class="card"><span>Cel</span><strong id="target"></strong></button>
+        <div class="card"><span>Plan</span><strong id="planned"></strong></div>
+        <div class="card"><span>Wykonane</span><strong id="actual"></strong></div>
+        <div class="card"><span>Pozostało</span><strong id="remaining"></strong></div>
+      </section>
+
+      <section class="calendar">
+        <div class="week"><span>Pn</span><span>Wt</span><span>Śr</span><span>Cz</span><span>Pt</span><span>So</span><span>Nd</span></div>
+        <div id="days" class="days"></div>
+      </section>
+
+      <button id="fill" class="wide">Wypełnij puste dni robocze</button>
+    </section>
+  </main>
+
+  <dialog id="day-dialog">
+    <form method="dialog">
+      <h2 id="day-title"></h2>
+      <label>Planowane godziny<input id="day-plan" type="number" min="0" max="24" step="0.25" inputmode="decimal"></label>
+      <label>Zrealizowane godziny<input id="day-actual" type="number" min="0" max="24" step="0.25" inputmode="decimal"></label>
+      <div class="actions"><button value="cancel" class="ghost">Anuluj</button><button id="save-day" value="default">Zapisz</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="target-dialog">
+    <form method="dialog">
+      <h2>Cel miesiąca</h2>
+      <label>Godziny<input id="target-input" type="number" min="0" max="400" step="0.25" inputmode="decimal"></label>
+      <div class="actions"><button value="cancel" class="ghost">Anuluj</button><button id="save-target" value="default">Zapisz</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="fill-dialog">
+    <form method="dialog">
+      <h2>Wypełnij dni robocze</h2>
+      <label>Godzin dziennie<input id="fill-hours" type="number" min="0" max="24" step="0.25" inputmode="decimal" value="8"></label>
+      <p>Uzupełnione zostaną tylko dni bez planu.</p>
+      <div class="actions"><button value="cancel" class="ghost">Anuluj</button><button id="save-fill" value="default">Wypełnij</button></div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
