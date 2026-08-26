@@ -48,7 +48,7 @@ async function connect(){
 }
 
 function render(){
-  let value=current(false),entries=Object.values(value.days),planned=entries.reduce((s,d)=>s+(d.p||0),0),actual=entries.reduce((s,d)=>s+(d.a||0),0);
+  let value=current(false),entries=Object.values(value.days),planned=entries.reduce((s,d)=>s+(d.a||d.p||0),0),actual=entries.reduce((s,d)=>s+(d.a||0),0);
   $("month").textContent=shown.toLocaleDateString("pl-PL",{month:"long",year:"numeric"});$("target").textContent=hours(value.target);$("planned").textContent=hours(planned);$("actual").textContent=hours(actual);$("remaining").textContent=hours(Math.max(0,value.target-actual));
   let box=$("days"),y=shown.getFullYear(),m=shown.getMonth(),count=new Date(y,m+1,0).getDate(),lead=(new Date(y,m,1).getDay()+6)%7,today=new Date();box.replaceChildren();
   for(let i=0;i<lead;i++)box.append(dayButton());
