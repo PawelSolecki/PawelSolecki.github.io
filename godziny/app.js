@@ -1,7 +1,7 @@
 const $=id=>document.getElementById(id),api="https://api.github.com",empty=()=>({version:1,months:{}});
 let data=empty(),sha="",shown=new Date(),selected="",repo="",token="";
 
-const pad=n=>String(n).padStart(2,"0"),monthKey=()=>`${shown.getFullYear()}-${pad(shown.getMonth()+1)}`,hours=n=>`${new Intl.NumberFormat("pl-PL",{maximumFractionDigits:2}).format(n/60)} h`,minutes=v=>Math.max(0,Math.round((Number(v)||0)*60)),encode=s=>btoa(String.fromCharCode(...new TextEncoder().encode(s))),decode=s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,"")),c=>c.charCodeAt(0)));
+const pad=n=>String(n).padStart(2,"0"),monthKey=()=>`${shown.getFullYear()}-${pad(shown.getMonth()+1)}`,hours=n=>`${new Intl.NumberFormat("pl-PL",{maximumFractionDigits:2}).format(n/60)} h`,signed=n=>`${n>0?"+":""}${new Intl.NumberFormat("pl-PL",{maximumFractionDigits:2}).format(n/60)}`,minutes=v=>Math.max(0,Math.round((Number(v)||0)*60)),encode=s=>btoa(String.fromCharCode(...new TextEncoder().encode(s))),decode=s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,"")),c=>c.charCodeAt(0)));
 const headers=()=>({Accept:"application/vnd.github+json",Authorization:`Bearer ${token}`,"X-GitHub-Api-Version":"2022-11-28"});
 const weekdays=()=>{let y=shown.getFullYear(),m=shown.getMonth(),n=new Date(y,m+1,0).getDate(),x=0;for(let d=1;d<=n;d++){let w=new Date(y,m,d).getDay();if(w>0&&w<6)x++}return x};
 const current=make=>{let k=monthKey();if(!data.months[k]&&make)data.months[k]={target:weekdays()*480,days:{}};return data.months[k]||{target:weekdays()*480,days:{}}};
@@ -48,8 +48,8 @@ async function connect(){
 }
 
 function render(){
-  let value=current(false),entries=Object.values(value.days),planned=entries.reduce((s,d)=>s+(d.a||d.p||0),0),actual=entries.reduce((s,d)=>s+(d.a||0),0);
-  $("month").textContent=shown.toLocaleDateString("pl-PL",{month:"long",year:"numeric"});$("target").textContent=hours(value.target);$("planned").textContent=hours(planned);$("actual").textContent=hours(actual);$("remaining").textContent=hours(Math.max(0,value.target-actual));
+  let value=current(false),entries=Object.values(value.days),planned=entries.reduce((s,d)=>s+(d.a||d.p||0),0),actual=entries.reduce((s,d)=>s+(d.a||0),0),ahead=entries.reduce((s,d)=>s+(d.a?d.a-(d.p||0):0),0);
+  $("month").textContent=shown.toLocaleDateString("pl-PL",{month:"long",year:"numeric"});$("target").textContent=hours(value.target);$("planned").textContent=hours(planned);$("planned-diff").textContent=ahead?`(${signed(ahead)})`:"";$("planned-diff").className=ahead>0?"diff up":"diff down";$("actual").textContent=hours(actual);$("remaining").textContent=hours(Math.max(0,value.target-actual));
   let box=$("days"),y=shown.getFullYear(),m=shown.getMonth(),count=new Date(y,m+1,0).getDate(),lead=(new Date(y,m,1).getDay()+6)%7,today=new Date();box.replaceChildren();
   for(let i=0;i<lead;i++)box.append(dayButton());
   for(let d=1;d<=count;d++){
